@@ -3,11 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "test": "standard && node my-tests.js",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "standard": "*",
     "bootstrap": "^4.4.1",
     "core-js": "^3.6.5",
     "jquery": "^3.4.1",
