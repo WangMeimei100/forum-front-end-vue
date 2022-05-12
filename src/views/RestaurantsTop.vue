@@ -4,39 +4,51 @@
     <h1 class="mt-5">人氣餐廳</h1>
 
     <hr />
-    <div v-for="restaurant in restaurants" :key="restaurant.id"
-    class="card mb-3" style="max-width: 540px; margin: auto">
+    <div
+      v-for="restaurant in restaurants"
+      :key="restaurant.id"
+      class="card mb-3"
+      style="max-width: 540px; margin: auto"
+    >
       <div class="row no-gutters">
         <div class="col-md-4">
-           <router-link
-              :to="{ name: 'restaurant', params: { id: restaurant.id } }"
-            >
-              <img
-                class="card-img"
-                :src="restaurant.image | emptyImage"
-              >
-            </router-link>
+          <router-link
+            :to="{ name: 'restaurant', params: { id: restaurant.id } }"
+          >
+            <img class="card-img" :src="restaurant.image | emptyImage" />
+          </router-link>
         </div>
         <div class="col-md-8">
           <div class="card-body">
             <h5 class="card-title">{{ restaurant.name }}</h5>
-            <span class="badge badge-secondary">收藏數：{{ restaurant.FavoriteCount }}</span>
+            <span class="badge badge-secondary"
+              >收藏數：{{ restaurant.FavoriteCount }}</span
+            >
             <p class="card-text">
               {{ restaurant.description }}
             </p>
             <router-link
               :to="{ name: 'restaurant', params: { id: restaurant.id } }"
-             class="btn btn-primary mr-2">Show
+              class="btn btn-primary mr-2"
+              >Show
             </router-link>
 
-            <button type="button" 
-            v-if="restaurant.isFavorited"
-            @click.stop.prevent="deleteFavorite(restaurant)"
-            class="btn btn-danger mr-2">移除最愛</button>
-            <button type="button"
-            v-else
-            @click.stop.prevent="addFavorite(restaurant)"
-            class="btn btn-primary">加到最愛</button>
+            <button
+              type="button"
+              v-if="restaurant.isFavorited"
+              @click.stop.prevent="deleteFavorite(restaurant.id)"
+              class="btn btn-danger mr-2"
+            >
+              移除最愛
+            </button>
+            <button
+              type="button"
+              v-else
+              @click.stop.prevent="addFavorite(restaurant.id)"
+              class="btn btn-primary"
+            >
+              加到最愛
+            </button>
           </div>
         </div>
       </div>
@@ -46,9 +58,9 @@
 
 <script>
 import NavTabs from "./../components/NavTabs";
-import { emptyImageFilter } from "./../utils/mixins"
+import { emptyImageFilter } from "./../utils/mixins";
 const dummyData = {
-  "restaurants": [
+  restaurants: [
     {
       id: 1,
       name: "Sheridan Howell",
@@ -240,39 +252,47 @@ const dummyData = {
   ],
 };
 export default {
+  name: "RestaurantsTop",
   components: {
     NavTabs,
   },
   mixins: [emptyImageFilter],
   data() {
     return {
-      restaurants :[] ,
-    }
+      restaurants: [],
+    };
   },
   created() {
-    this.fetchRestaurants ()
+    this.fetchRestaurants();
   },
   methods: {
-    fetchRestaurants () {
-      this.restaurants = dummyData.restaurants
+    fetchRestaurants() {
+      this.restaurants = dummyData.restaurants;
     },
-    deleteFavorite (restaurant) {
-      // this.restaurant = {
-      //   ...this.restaurant,
-      //   isFavorited : false,
-      // }
-      restaurant.isFavorited = false
-      restaurant.FavoriteCount -= 1
+    deleteFavorite(restaurantId) {
+      this.restaurants = this.restaurants.map((restaurant) => {
+        if (restaurant.id !== restaurantId) {
+          return restaurant;
+        }
+        return {
+          ...restaurant,
+          FavoriteCount: restaurant.FavoriteCount - 1,
+          isFavorited: false,
+        };
+      });
     },
-    addFavorite (restaurant) {
-      // this.restaurant = {
-      //   ...this.restaurant,
-      //   isFavorited : true,
-      // }
-      restaurant.isFavorited = true
-      restaurant.FavoriteCount += 1
+    addFavorite(restaurantId) {
+      this.restaurants = this.restaurants.map((restaurant) => {
+        if (restaurant.id !== restaurantId) {
+          return restaurant;
+        }
+        return {
+          ...restaurant,
+          FavoriteCount: restaurant.FavoriteCount + 1,
+          isFavorited: true,
+        };
+      });
     },
-  }
+  },
 };
-
 </script>
