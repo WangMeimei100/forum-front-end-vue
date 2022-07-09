@@ -1309,19 +1309,13 @@ export default {
     UserFollowersCard,
     UserFavoritedRestaurantsCard,
   },
-  //
   data() {
     return {
-      // 改 proflie 為 user (確定是指 proflie)
       user: {
         id: -1,
         name: "",
         email: "",
-        // password: '',
-        // isAdmin: '',
         image: "",
-        // createdAt: '',
-        // 以下四個補的
         followingsLength: 0,
         followersLength: 0,
         commentsLength: 0,
@@ -1331,23 +1325,20 @@ export default {
       favoritedRestaurants: [],
       followers: [],
       followings: [],
-      isFollowed: false, //這是？OK
+      isFollowed: false,
       currentUser: {}, //add this
     };
   },
   created() {
-    // 這是？
-    const { id } = this.$route.params;
-    this.fetchUser(id);
-    // 方法二
-    // this.fetchCurrentUser()
-
-    // 方法一
+    // 取得動態路由位置
+    const { id: userId } = this.$route.params;
+    this.fetchUser(userId);
+    
     this.currentUser = dummyUser.currentUser; //add this
   },
   methods: {
     fetchUser(userId) {
-      console.log("id", userId);
+      console.log("fetchUser id", userId);
 
       const { profile, isFollowed } = dummyData;
 
@@ -1374,9 +1365,10 @@ export default {
         favoritedRestaurantsLength: FavoritedRestaurants.length,
       };
       // cancel these
-      // this.comments = Comments.filter(comment => comment.Restaurant) //add this
+      // this.comments = Comments.filter(comment => comment.Restaurant) 
 
-      // add these
+      // option methods
+      // 利用 Set 元素不會重複的特性，過濾掉重複的評論
       const commentSet = new Set();
       this.comments = Comments.filter(
         (comment) =>
@@ -1389,11 +1381,7 @@ export default {
       this.followers = Followers;
       this.followings = Followings;
       this.isFollowed = isFollowed;
-    },
-    // 方法二，和方法一的意思一樣
-    // fetchCurrentUser() {
-    //   this.currentUser = dummyUser.currentUser
-    // }
+    }
   },
 };
 </script>

@@ -50,6 +50,11 @@ const router = new VueRouter({
       component: () => import('../views/Restaurant.vue')
     },
     {
+      path: '/users/top',
+      name: 'users-top',
+      component: () => import('../views/UsersTop.vue')
+    },
+    {
       path: '/user/:id/edit',
       name: 'user-edit',
       component: () => import('../views/UserEdit.vue')
@@ -58,12 +63,6 @@ const router = new VueRouter({
       path: '/users/:id',
       name: 'user',
       component: () => import('../views/User.vue')
-    },
-    
-    {
-      path: '/users/top',
-      name: 'users-top',
-      component: () => import('../views/UsersTop.vue')
     },
     {
       path: '/admin',
