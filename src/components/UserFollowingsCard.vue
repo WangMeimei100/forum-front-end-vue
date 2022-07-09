@@ -27,8 +27,8 @@ export default {
   props: {
     followings: {
       type: Array,
-      default: () => [] //add this
-      // require: true, //cancel this
+      // 使用者不一定有追蹤者，更改props傳進來的設定
+      default: () => [] 
     },
   },
 };

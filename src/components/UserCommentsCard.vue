@@ -25,7 +25,8 @@ export default {
   props: {
     comments: {
       type: Array,
-      require: true,
+      // 使用者不一定有評論餐廳，更改props傳進來的設定
+      default: () => []
     }
   }
 }

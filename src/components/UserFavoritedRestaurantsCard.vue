@@ -23,7 +23,7 @@ export default {
   props: {
     favoritedRestaurants: {
       type: Array,
-      // require: true,
+      // 使用者不一定有收藏最喜愛的餐廳，更改props傳進來的設定
       default: () => []
     }
   }

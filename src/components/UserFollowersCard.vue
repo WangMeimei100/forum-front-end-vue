@@ -24,7 +24,7 @@ export default {
   props: {
     followers: {
       type: Array,
-      // require: true
+      // 使用者不一定有追隨者，更改props傳進來的設定
       default: () => []
     }
   }
