@@ -17,6 +17,7 @@
             @click.stop.prevent="createCategory"
             type="button"
             class="btn btn-primary"
+            :disabled="isProcessing"
           >
             新增
           </button>
@@ -46,11 +47,13 @@
               type="text"
               class="form-control"
             />
-            <span 
-              v-show="category.isEditing" 
-              @click="handleCancel(category.id)" 
+            <span
+              v-show="category.isEditing"
+              @click="handleCancel(category.id)"
               class="cancel"
-            > ✕ </span>
+            >
+              ✕
+            </span>
           </td>
           <td class="d-flex justify-content-between">
             <button
@@ -65,7 +68,9 @@
               v-show="category.isEditing"
               type="button"
               class="btn btn-link mr-2"
-              @click.stop.prevent="updateCategory({ categoryId: category.id, name: category.name })"
+              @click.stop.prevent="
+                updateCategory({ categoryId: category.id, name: category.name })
+              "
             >
               Save
             </button>
@@ -84,40 +89,13 @@
 </template>
 
 <script>
-import AdminNav from "@/components/AdminNav";
-import { v4 as uuidv4 } from "uuid";
-
-//  2. 定義暫時使用的資料
-const dummyData = {
-  categories: [
-    {
-      id: 1,
-      name: "中式料理",
-      createdAt: "2019-06-22T09:00:43.000Z",
-      updatedAt: "2019-06-22T09:00:43.000Z",
-    },
-    {
-      id: 2,
-      name: "日本料理",
-      createdAt: "2019-06-22T09:00:43.000Z",
-      updatedAt: "2019-06-22T09:00:43.000Z",
-    },
-    {
-      id: 3,
-      name: "義大利料理",
-      createdAt: "2019-06-22T09:00:43.000Z",
-      updatedAt: "2019-06-22T09:00:43.000Z",
-    },
-    {
-      id: 4,
-      name: "墨西哥料理",
-      createdAt: "2019-06-22T09:00:43.000Z",
-      updatedAt: "2019-06-22T09:00:43.000Z",
-    },
-  ],
-};
+import AdminNav from "./../components/AdminNav";
+// import { v4 as uuidv4 } from "uuid";
+import adminAPI from "./../apis/admin";
+import { Toast } from "./../utils/helpers";
 
 export default {
+  name: "AdminCategories",
   components: {
     AdminNav,
   },
@@ -126,62 +104,113 @@ export default {
     return {
       categories: [],
       newCategoryName: "",
+      isProcessing: false,
     };
   },
-  // 5. 調用 `fetchCategories` 方法
   created() {
     this.fetchCategories();
   },
   methods: {
-    // 4. 定義 `fetchCategories` 方法，把 `dummyData` 帶入 Vue 物件
-    fetchCategories() {
-      this.categories = dummyData.categories.map((category) => ({
-        ...category,
-        isEditing: false,
-        nameCached: ''
-      }));
+    async fetchCategories() {
+      try {
+        const { data } = await adminAPI.categories.get();
+        console.log("data", data);
+        this.categories = data.categories.map((category) => ({
+          //這邊省略了return，然後物件要用()包住，不然會以為是函式
+          ...category,
+          isEditing: false,
+          nameCached: "",
+        }));
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法取得餐廳類別，請稍候再試",
+        });
+      }
     },
-    createCategory() {
-      this.categories.push({
-        id: uuidv4(),
-        name: this.newCategoryName,
-      });
-      this.newCategoryName = "";
-    },
-    deleteCategory(categoryId) {
-      this.categories = this.categories.filter(
-        (category) => category.id !== categoryId
-      );
-    },
-    toggleIsEditing(categoryId) {
-      this.categories = this.categories.map( category => {
-        if (category.id === categoryId) {
-          return {
-            ...category,
-            isEditing: !category.isEditing,            
-            nameCached: category.name
-          }
-        }
-        return category
-      })
-    },
-    updateCategory ({ categoryId }) {
 
-      // TODO: 透過 API 去向伺服器更新餐廳類別名稱
-      this.toggleIsEditing(categoryId)
+    async createCategory() {
+      try {
+        this.isProcessing = true;
+        const { data } = await adminAPI.categories.create({
+          name: this.newCategoryName,
+        });
+
+        if (data.status !== "success") {
+          throw new Error(data.message);
+        }
+
+        this.categories.push({
+          id: data.categoryId,
+          name: this.newCategoryName,
+        });
+
+        this.newCategoryName = "";
+        this.isProcessing = false;
+      } catch (error) {
+        this.isProcessing = false;
+        Toast.fire({
+          icon: "error",
+          title: "無法新增餐廳類別，請稍候再試",
+        });
+      }
     },
-    handleCancel (categoryId) {
-      this.categories = this.categories.map( category => {
+    async deleteCategory(categoryId) {
+      try {
+        const { data } = await adminAPI.categories.delete({ categoryId });
+        if (data.status !== "success") {
+          throw new Error(data.message);
+        }
+        console.log("data", data);
+        this.categories = this.categories.filter(
+          (category) => category.id !== categoryId
+        );
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法刪除餐廳類別，請稍候再試",
+        });
+      }
+    },
+
+    toggleIsEditing(categoryId) {
+      this.categories = this.categories.map((category) => {
         if (category.id === categoryId) {
           return {
             ...category,
-            name: category.nameCached
-          }
+            isEditing: !category.isEditing,
+            nameCached: category.name,
+          };
         }
-        return category
-      })
-      this.toggleIsEditing(categoryId)
-    }
+        return category;
+      });
+    },
+    async updateCategory({ categoryId, name }) {
+      try {
+        const { data } = await adminAPI.categories.update({ categoryId, name });
+        if (data.status !== "success") {
+          throw new Error(data.message);
+        }
+        this.toggleIsEditing(categoryId);
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法修改餐廳類別，請稍後再試",
+        });
+      }
+    },
+    handleCancel(categoryId) {
+      this.categories = this.categories.map((category) => {
+        if (category.id === categoryId) {
+          return {
+            ...category,
+            name: category.nameCached,
+          };
+        }
+        return category;
+      });
+      this.toggleIsEditing(categoryId);
+    },
   },
 };
 </script>
