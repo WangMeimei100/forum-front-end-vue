@@ -9,7 +9,7 @@
     <div class="col-lg-4">
       <img
         class="img-responsive center-block" 
-    :src="restaurant.image | emptyImage"
+        :src="restaurant.image | emptyImage"
         style="width: 250px;margin-bottom: 25px;"
       >
       <div class="contact-info-wrap">
@@ -36,37 +36,38 @@
         :to="{ 
           name: 'restaurant-dashboard', 
           params:{ id: restaurant.id }}"
-      >Dashboard
+      >
+        Dashboard
       </router-link>
 
       <button
+        v-if="restaurant.isFavorited"
         type="button"
         class="btn btn-danger btn-border mr-2"
-        v-if="restaurant.isFavorited"
         @click.stop.prevent="deleteFavorite"
       >
         移除最愛
       </button>
       <button
+        v-else
         type="button"
         class="btn btn-primary btn-border mr-2"
-        v-else
         @click.stop.prevent="addFavorite"
       >
         加到最愛
       </button>
       <button
+        v-if="restaurant.isLiked"
         type="button"
         class="btn btn-danger like mr-2"
-        v-if="restaurant.isLiked"
         @click.stop.prevent="deleteLike"
       >
         Unlike
       </button>
       <button
+        v-else
         type="button"
         class="btn btn-primary like mr-2"
-        v-else
         @click.stop.prevent="addLike"
       >
         Like

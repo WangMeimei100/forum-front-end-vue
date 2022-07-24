@@ -1,7 +1,7 @@
 <template>
   <form 
-  v-show="!isLoading"
-  @submit.stop.prevent="handleSubmit"
+    v-show="!isLoading"
+    @submit.stop.prevent="handleSubmit"
   >
     <div class="form-group">
       <label for="name">Name</label>
@@ -33,9 +33,10 @@
           --請選擇--
         </option>
         <option 
-        v-for="category in categories"
-        :key="category.id"
-        :value="category.id" >
+          v-for="category in categories"
+          :key="category.id"
+          :value="category.id"
+        >
           {{ category.name }}
         </option>        
       </select>
@@ -89,7 +90,7 @@
 
     <div class="form-group">
       <label for="image">Image</label>
-       <img
+      <img
         v-if="restaurant.image"
         :src="restaurant.image"
         class="d-block img-thumbnail mb-3"
@@ -113,7 +114,6 @@
       :disabled="isProcessing"
     >
       {{ isProcessing ? "處理中..." : "送出" }}
-
     </button>
   </form>
 </template>

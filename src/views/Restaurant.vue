@@ -2,17 +2,19 @@
   <div class="container py-5">
     <!-- 餐廳資訊頁 RestaurantDetail -->
     <RestaurantDetail
-    :initial-restaurant="restaurant"/>
+      :initial-restaurant="restaurant"
+    />
     <hr>
     <!-- 餐廳評論 RestaurantComments -->
     <RestaurantComments 
-    :restaurant-comments="restaurantComments"
-    @after-delete-comment="afterDeleteComment"
-/>
+      :restaurant-comments="restaurantComments"
+      @after-delete-comment="afterDeleteComment"
+    />
     <!-- 新增評論 CreateComment -->
     <CreateComment
-    :restaurant-id="restaurant.id"
-    @after-create-comment="afterCreateComment"/>
+      :restaurant-id="restaurant.id"
+      @after-create-comment="afterCreateComment"
+    />
   </div>
 </template> 
 

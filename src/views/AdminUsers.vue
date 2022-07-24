@@ -23,7 +23,9 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="user in users" :key="user.id">
+        <tr v-for="user in users"
+            :key="user.id"
+        >
           <th scope="row">
             {{ user.id }}
           </th>
@@ -37,11 +39,10 @@
               class="btn btn-link"
               @click.stop.prevent="toggleUserRole(user.id)"
             >
-              {{ user.isAdmin ? 'set as user' : 'set as admin'}}
+              {{ user.isAdmin ? 'set as user' : 'set as admin' }}
             </button>
           </td>
         </tr>
-        
       </tbody>
     </table>
   </div>

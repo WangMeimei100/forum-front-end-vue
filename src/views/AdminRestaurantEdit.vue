@@ -1,52 +1,52 @@
 <template>
   <div class="container py-5">
-    <AdminRestaurantForm 
-    :initial-restaurant="restaurant"
-    @after-submit="handleAfterSubmit"
-    :is-processing="isProcessing" />
+    <AdminRestaurantForm
+      :initial-restaurant="restaurant"
+      :is-processing="isProcessing"
+      @after-submit="handleAfterSubmit"
+    />
   </div>
 </template>
 
 <script>
-import AdminRestaurantForm from './../components/AdminRestaurantForm.vue'
-import adminAPI from './../apis/admin'
-import { Toast } from './../utils/helpers'
+import AdminRestaurantForm from "./../components/AdminRestaurantForm.vue";
+import adminAPI from "./../apis/admin";
+import { Toast } from "./../utils/helpers";
 
 export default {
-  
   components: {
-    AdminRestaurantForm
+    AdminRestaurantForm,
   },
-  data () {
+  data() {
     return {
       restaurant: {
         id: -1,
-        name: '',
-        categoryId: '',
-        tel: '',
-        address: '',
-        description: '',
-        image: '',
-        openingHours: ''
+        name: "",
+        categoryId: "",
+        tel: "",
+        address: "",
+        description: "",
+        image: "",
+        openingHours: "",
       },
-        isProcessing: false
-    }
+      isProcessing: false,
+    };
   },
-  created () {
-    const { id } = this.$route.params
-    this.fetchRestaurant(id)
+  created() {
+    const { id } = this.$route.params;
+    this.fetchRestaurant(id);
   },
   beforeRouteUpdate(to, from, next) {
-    const { id } = to.params
-    this.fetchRestaurant(id)
-    next()
+    const { id } = to.params;
+    this.fetchRestaurant(id);
+    next();
   },
   methods: {
-    async fetchRestaurant (restaurantId) {
+    async fetchRestaurant(restaurantId) {
       try {
-        const { data } = await adminAPI.restaurants.getDetail({ restaurantId })
-        
-         // 透過解構賦值將需要的資料取出
+        const { data } = await adminAPI.restaurants.getDetail({ restaurantId });
+
+        // 透過解構賦值將需要的資料取出
         const {
           id,
           name,
@@ -55,8 +55,8 @@ export default {
           opening_hours: openingHours,
           description,
           image,
-          CategoryId: categoryId
-        } = data.restaurant
+          CategoryId: categoryId,
+        } = data.restaurant;
 
         //將資料帶入 Vue 內
         this.restaurant = {
@@ -68,32 +68,34 @@ export default {
           openingHours,
           description,
           image,
-          categoryId
-        }
+          categoryId,
+        };
       } catch (error) {
         Toast.fire({
-          icon: 'error',
-          title: '無法取得餐廳資料，請稍後再試'
-        })
+          icon: "error",
+          title: "無法取得餐廳資料，請稍後再試",
+        });
       }
-      console.log('fetchRestaurant id:', restaurantId)
-      
+      console.log("fetchRestaurant id:", restaurantId);
     },
-    
+
     async handleAfterSubmit(formData) {
-    try {
-        const { data } = await adminAPI.restaurants.update({ restaurantId: this.restaurant.id, formData})
-        if(data.status !== 'success') {
-          throw new Error(data.message)
+      try {
+        const { data } = await adminAPI.restaurants.update({
+          restaurantId: this.restaurant.id,
+          formData,
+        });
+        if (data.status !== "success") {
+          throw new Error(data.message);
         }
-        this.$router.push({ name: 'admin-restaurants' })
+        this.$router.push({ name: "admin-restaurants" });
       } catch (error) {
         Toast.fire({
-          icon: 'error',
-          title: '無法更新餐廳資料，請稍後再試'
-        })
+          icon: "error",
+          title: "無法更新餐廳資料，請稍後再試",
+        });
       }
     },
   },
-}
+};
 </script>

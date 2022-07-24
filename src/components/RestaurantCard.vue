@@ -7,12 +7,13 @@
         alt="Card image cap"
         width="286px"
         height="180px"
-      />
+      >
       <div class="card-body">
         <p class="card-text title-wrap">
           <router-link
             :to="{ name: 'restaurant', params: { id: restaurant.id } }"
-            >{{ restaurant.name }}
+          >
+            {{ restaurant.name }}
           </router-link>
         </p>
         <span class="badge badge-secondary">{{
@@ -24,33 +25,33 @@
       </div>
       <div class="card-footer">
         <button
+          v-if="restaurant.isFavorited"
           type="button"
           class="btn btn-danger btn-border favorite mr-2"
-          v-if="restaurant.isFavorited"
           @click.stop.prevent="deleteFavorite(restaurant.id)"
         >
           移除最愛
         </button>
         <button
+          v-else
           type="button"
           class="btn btn-primary btn-border favorite mr-2"
-          v-else
           @click.stop.prevent="addFavorite(restaurant.id)"
         >
           加到最愛
         </button>
         <button
+          v-if="restaurant.isLiked"
           type="button"
           class="btn btn-danger like mr-2"
-          v-if="restaurant.isLiked"
           @click.stop.prevent="deleteLike(restaurant.id)"
         >
           Unlike
         </button>
         <button
+          v-else
           type="button"
           class="btn btn-primary like mr-2"
-          v-else
           @click.stop.prevent="addLike(restaurant.id)"
         >
           Like

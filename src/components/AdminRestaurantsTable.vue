@@ -2,14 +2,26 @@
   <table class="table">
     <thead class="thead-dark">
       <tr>
-        <th scope="col">#</th>
-        <th scope="col">Category</th>
-        <th scope="col">Name</th>
-        <th scope="col" width="300">操作</th>
+        <th scope="col">
+          #
+        </th>
+        <th scope="col">
+          Category
+        </th>
+        <th scope="col">
+          Name
+        </th>
+        <th scope="col"
+            width="300"
+        >
+          操作
+        </th>
       </tr>
     </thead>
     <tbody>
-      <tr v-for="restaurant in restaurants" :key="restaurant.id">
+      <tr v-for="restaurant in restaurants"
+          :key="restaurant.id"
+      >
         <th scope="row">
           {{ restaurant.id }}
         </th>
@@ -19,8 +31,9 @@
           <router-link
             :to="{ name: 'admin-restaurant', params: { id: restaurant.id } }"
             class="btn btn-link"
-            >Show</router-link
           >
+            Show
+          </router-link>
 
           <router-link
             :to="{
@@ -28,13 +41,14 @@
               params: { id: restaurant.id },
             }"
             class="btn btn-link"
-            >Edit</router-link
           >
+            Edit
+          </router-link>
 
           <button
-            @click.stop.prevent="deleteRestaurant(restaurant.id)"
             type="button"
             class="btn btn-link"
+            @click.stop.prevent="deleteRestaurant(restaurant.id)"
           >
             Delete
           </button>
@@ -62,7 +76,6 @@ export default {
       try {
         const { data } = await adminAPI.restaurants.get();
         this.restaurants = data.restaurants;
-
       } catch (error) {
         Toast.fire({
           icon: "error",
@@ -72,13 +85,15 @@ export default {
     },
     async deleteRestaurant(restaurantId) {
       try {
-        const { data } = await adminAPI.restaurants.delete({ restaurantId });      
-  
-        if (data.status !== 'success') {
-          throw new Error(data.message)
+        const { data } = await adminAPI.restaurants.delete({ restaurantId });
+
+        if (data.status !== "success") {
+          throw new Error(data.message);
         }
-        
-        this.restaurants = this.restaurants.filter(restaurant => restaurant.id !== restaurantId)
+
+        this.restaurants = this.restaurants.filter(
+          (restaurant) => restaurant.id !== restaurantId
+        );
       } catch (error) {
         Toast.fire({
           icon: "error",

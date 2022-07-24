@@ -7,14 +7,17 @@
       </span>
     </div>
 
-    <hr />
+    <hr>
 
     <ul>
       <li>評論數： {{ restaurant.commentsLength }} </li>
       <li>瀏覽次數： {{ restaurant.viewCounts }} </li>
     </ul>
 
-    <button type="button" class="btn btn-link" @click="$router.back()">
+    <button type="button"
+            class="btn btn-link"
+            @click="$router.back()"
+    >
       回上一頁
     </button>
   </div>

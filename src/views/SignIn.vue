@@ -1,8 +1,12 @@
 <template>
   <div class="container py-5">
-    <form class="w-100" @submit.prevent.stop="handleSubmit">
+    <form class="w-100"
+          @submit.prevent.stop="handleSubmit"
+    >
       <div class="text-center mb-4">
-        <h1 class="h3 mb-3 font-weight-normal">Sign In</h1>
+        <h1 class="h3 mb-3 font-weight-normal">
+          Sign In
+        </h1>
       </div>
 
       <div class="form-label-group mb-2">
@@ -17,7 +21,7 @@
           autocomplete="username"
           required
           autofocus
-        />
+        >
       </div>
 
       <div class="form-label-group mb-3">
@@ -31,7 +35,7 @@
           placeholder="Password"
           autocomplete="current-password"
           required
-        />
+        >
       </div>
 
       <button
@@ -44,11 +48,15 @@
 
       <div class="text-center mb-3">
         <p>
-          <router-link to="/signup"> Sign Up </router-link>
+          <router-link to="/signup">
+            Sign Up
+          </router-link>
         </p>
       </div>
 
-      <p class="mt-5 mb-3 text-muted text-center">&copy; 2017-2018</p>
+      <p class="mt-5 mb-3 text-muted text-center">
+        &copy; 2017-2018
+      </p>
     </form>
   </div>
 </template>
@@ -85,12 +93,14 @@ export default {
         });
 
         // 取得 API 請求後的資料
-        const { data } = response;
+        const { data } = response
 
         // 將 token 存放在 localStorage 內
         localStorage.setItem("token", data.token);
 
-        // 因為成功登入就會轉址，所以不用還原 isProcessing 的狀態
+        // 將資料存到 Vuex 中
+        this.$store.commit("setCurrentUser", data.user);
+
         // 成功登入後轉址到餐廳首頁
         this.$router.push("/restaurants");
       } catch (error) {

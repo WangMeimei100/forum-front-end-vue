@@ -39,7 +39,9 @@
       type="button"
       class="btn btn-link"
       @click="$router.back()"
-    >回上一頁</button>
+    >
+      回上一頁
+    </button>
   </div>
 </template>
 <script>

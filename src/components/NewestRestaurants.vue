@@ -1,10 +1,12 @@
 <template>
   <div class="card">
-    <div class="card-header">最新餐廳</div>
+    <div class="card-header">
+      最新餐廳
+    </div>
     <div
-      class="card-body"
       v-for="restaurant in restaurants"
       :key="restaurant.id"
+      class="card-body"
     >
       <div>
         <h4>
@@ -19,7 +21,7 @@
         </h4>
         <p>{{ restaurant.description }}</p>
         {{ restaurant.createdAt | fromNow }}
-        <hr />
+        <hr>
       </div>
     </div>
   </div>

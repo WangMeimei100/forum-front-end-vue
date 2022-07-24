@@ -1,16 +1,16 @@
 <template>
   <div class="container py-5">
     <form
-    @submit.stop.prevent="handleSubmit"
+      @submit.stop.prevent="handleSubmit"
     >
       <div class="form-group">
         <label for="name">Name</label>
         <input
           id="name"
+          v-model="user.name"
           type="text"
           name="name"
           class="form-control"
-          v-model="user.name"
           placeholder="Enter Name"
           required
         >
@@ -19,12 +19,12 @@
       <div class="form-group">
         <label for="image">Image</label>
         <img
-        v-if="user.image"
-        :src="user.image"
-        class="d-block img-thumbnail mb-3"
-        width="200"
-        height="200"
-      >
+          v-if="user.image"
+          :src="user.image"
+          class="d-block img-thumbnail mb-3"
+          width="200"
+          height="200"
+        >
         <input
           id="image"          
           type="file"
@@ -37,7 +37,8 @@
 
       <button
         type="submit"
-        class="btn btn-primary">
+        class="btn btn-primary"
+      >
         Submit
       </button>
     </form>

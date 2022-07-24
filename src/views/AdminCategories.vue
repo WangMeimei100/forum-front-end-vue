@@ -10,14 +10,14 @@
             type="text"
             class="form-control"
             placeholder="新增餐廳類別..."
-          />
+          >
         </div>
         <div class="col-auto">
           <button
-            @click.stop.prevent="createCategory"
             type="button"
             class="btn btn-primary"
             :disabled="isProcessing"
+            @click.stop.prevent="createCategory"
           >
             新增
           </button>
@@ -27,18 +27,32 @@
     <table class="table">
       <thead class="thead-dark">
         <tr>
-          <th scope="col" width="60">#</th>
-          <th scope="col">Category Name</th>
-          <th scope="col" width="210">Action</th>
+          <th scope="col"
+              width="60"
+          >
+            #
+          </th>
+          <th scope="col">
+            Category Name
+          </th>
+          <th scope="col"
+              width="210"
+          >
+            Action
+          </th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="category in categories" :key="category.id">
+        <tr v-for="category in categories"
+            :key="category.id"
+        >
           <th scope="row">
             {{ category.id }}
           </th>
           <td class="position-relative">
-            <div v-show="!category.isEditing" class="category-name">
+            <div v-show="!category.isEditing"
+                 class="category-name"
+            >
               {{ category.name }}
             </div>
             <input
@@ -46,11 +60,11 @@
               v-model="category.name"
               type="text"
               class="form-control"
-            />
+            >
             <span
               v-show="category.isEditing"
-              @click="handleCancel(category.id)"
               class="cancel"
+              @click="handleCancel(category.id)"
             >
               ✕
             </span>
@@ -58,9 +72,9 @@
           <td class="d-flex justify-content-between">
             <button
               v-show="!category.isEditing"
-              @click="toggleIsEditing(category.id)"
               type="button"
               class="btn btn-link mr-2"
+              @click="toggleIsEditing(category.id)"
             >
               Edit
             </button>

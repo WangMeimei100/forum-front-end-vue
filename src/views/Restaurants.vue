@@ -8,18 +8,18 @@
       <RestaurantCard
         v-for="restaurant in restaurants"
         :key="restaurant.id"
-        :initialRestaurant="restaurant"
+        :initial-restaurant="restaurant"
       />
     </div>
 
     <!-- 分頁標籤 RestaurantPagination -->
     <RestaurantsPagination
       v-if="totalPage.length > 1"
-      :categoryId="categoryId"
-      :currentPage="currentPage"
-      :totalPage="totalPage"
-      :previousPage="previousPage"
-      :nextPage="nextPage"
+      :category-id="categoryId"
+      :current-page="currentPage"
+      :total-page="totalPage"
+      :previous-page="previousPage"
+      :next-page="nextPage"
     />
   </div>
 </template>

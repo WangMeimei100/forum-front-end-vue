@@ -1,9 +1,11 @@
 <template>
   <div class="container py-5">
     <NavTabs />
-    <h1 class="mt-5">人氣餐廳</h1>
+    <h1 class="mt-5">
+      人氣餐廳
+    </h1>
 
-    <hr />
+    <hr>
     <div
       v-for="restaurant in restaurants"
       :key="restaurant.id"
@@ -15,37 +17,40 @@
           <router-link
             :to="{ name: 'restaurant', params: { id: restaurant.id } }"
           >
-            <img class="card-img" :src="restaurant.image | emptyImage" />
+            <img class="card-img"
+                 :src="restaurant.image | emptyImage"
+            >
           </router-link>
         </div>
         <div class="col-md-8">
           <div class="card-body">
-            <h5 class="card-title">{{ restaurant.name }}</h5>
-            <span class="badge badge-secondary"
-              >收藏數：{{ restaurant.FavoriteCount }}</span
-            >
+            <h5 class="card-title">
+              {{ restaurant.name }}
+            </h5>
+            <span class="badge badge-secondary">收藏數：{{ restaurant.FavoriteCount }}</span>
             <p class="card-text">
               {{ restaurant.description }}
             </p>
             <router-link
               :to="{ name: 'restaurant', params: { id: restaurant.id } }"
               class="btn btn-primary mr-2"
-              >Show
+            >
+              Show
             </router-link>
 
             <button
-              type="button"
               v-if="restaurant.isFavorited"
-              @click.stop.prevent="deleteFavorite(restaurant.id)"
+              type="button"
               class="btn btn-danger mr-2"
+              @click.stop.prevent="deleteFavorite(restaurant.id)"
             >
               移除最愛
             </button>
             <button
-              type="button"
               v-else
-              @click.stop.prevent="addFavorite(restaurant.id)"
+              type="button"
               class="btn btn-primary"
+              @click.stop.prevent="addFavorite(restaurant.id)"
             >
               加到最愛
             </button>

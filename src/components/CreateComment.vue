@@ -14,7 +14,9 @@
         type="button"
         class="btn btn-link"
         @click="$router.back()"
-      >回上一頁</button>
+      >
+        回上一頁
+      </button>
       <button
         type="submit"
         class="btn btn-primary mr-0"
